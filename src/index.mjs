@@ -20,8 +20,7 @@ export const createUploadLink = (
         const requestOperation = { query: print(query) }
 
         if (operationName) requestOperation.operationName = operationName
-        if (Object.keys(variables).length)
-          requestOperation.variables = variables
+
         if (extensions && includeExtensions)
           requestOperation.extensions = extensions
 
@@ -54,10 +53,10 @@ export const createUploadLink = (
 
           fetchOptions.body = new FormData()
 
-          fetchOptions.body.append(
-            'operations',
-            JSON.stringify(requestOperation)
-          )
+          fetchOptions.body.append('query', JSON.stringify(requestOperation))
+
+          if (Object.keys(variables).length)
+            fetchOptions.body.append('variables', JSON.stringify(variables))
 
           fetchOptions.body.append(
             'map',
